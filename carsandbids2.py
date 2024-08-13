@@ -8,6 +8,7 @@ import time
 from bs4 import BeautifulSoup
 from pyvirtualdisplay import Display
 import pandas as pd
+import traceback
 
 # Start virtual display
 display = Display(visible=0, size=(800, 600))
@@ -69,8 +70,9 @@ for element in elements:
         new_row = pd.Series(my_list, index=carsandbids.columns)
         carsandbids = carsandbids.append(new_row, ignore_index=True)
             
-    except Exception:
-        continue
+    except Exception as e:
+        print("An error occurred:", str(e))
+        traceback.print_exc()
 
     
 print(carsandbids)
