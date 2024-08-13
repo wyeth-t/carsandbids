@@ -77,12 +77,12 @@ for element in elements:
 
     
 print(carsandbids)
-logger.log_text(carsandbids.to_string())
+#logger.log_text(carsandbids.to_string())
 
 try:
     import mariadb
     
-    
+    print('here')
     conn = mariadb.connect(
             host="34.41.191.0",
             port=3306,
