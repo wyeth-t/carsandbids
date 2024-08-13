@@ -52,7 +52,11 @@ for element in elements:
         hero = element.find("li", class_="heroup")
         if hero is not None:
             continue
-        image_loc = element.find("img")['src']
+        try:
+            #extract image location
+            image_loc = element.find("img")['src']
+        except:
+            image_loc = 'No Image'
         time_left = element.find("li", class_="time-left").find("span", class_="value").text
         #extract bid value
         bid = element.find("span", class_="bid-value").text
@@ -111,10 +115,15 @@ try:
         """)
 
     for index, row in carsandbids.iterrows():
-        cursor.execute("""
-            INSERT INTO carsandbids (title, description, time_Left, bid, location, href, image_loc) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """, (row['title'], row['description'], row['time_Left'], row['bid'], row['location'], row['href'], row['image_loc']))
+        try:
+            cursor.execute("""
+                NSERT INTO carsandbids (title, description, time_Left, bid, location, href, image_loc) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """, (row['title'], row['description'], row['time_Left'], row['bid'], row['location'], row['href'], row['image_loc']))
+        except Exception as e:
+            print(f"Error inserting row: {e}")
+
+    conn.commit()  # Commit the transaction
 
     # Close Connection
     conn.close()
