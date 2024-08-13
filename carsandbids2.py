@@ -32,7 +32,7 @@ time.sleep(10)
 
 # Scroll down
 actions = ActionChains(driver)
-for _ in range(15):  # Adjust this value based on your needs
+for _ in range(25):  # Adjust this value based on your needs
     actions.send_keys(Keys.PAGE_DOWN).perform()
     time.sleep(1)  # Wait for the page to load
 
