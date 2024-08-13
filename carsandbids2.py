@@ -66,9 +66,8 @@ for element in elements:
         #extract location
         location = element.find("p", class_="auction-loc").text
 
-        my_list = [title, description, time_left, bid, location, href, image_loc]
-        new_row = pd.Series(my_list, index=carsandbids.columns)
-        carsandbids = carsandbids.append(new_row, ignore_index=True)
+        carsandbids.loc[len(carsandbids)] = [title, description, time_left, bid, location, href, image_loc]
+
             
     except Exception as e:
         print("An error occurred:", str(e))
