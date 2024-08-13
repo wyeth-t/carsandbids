@@ -31,9 +31,9 @@ driver.get(adress)
 time.sleep(10)
 
 # Scroll down
-actions = ActionChains(driver)
-for _ in range(25):  # Adjust this value based on your needs
-    actions.send_keys(Keys.PAGE_DOWN).perform()
+#actions = ActionChains(driver)
+for _ in range(15):  # Adjust this value based on your needs
+    driver.execute_script('window.scrollBy(0, 1000)')
     time.sleep(1)  # Wait for the page to load
 
 html = driver.page_source
