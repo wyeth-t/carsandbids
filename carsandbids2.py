@@ -45,8 +45,7 @@ elements = soup.find_all("li", class_="auction-item")
 carsandbids = pd.DataFrame(columns=['title', 'description', 'time_Left', 'bid', 'location', 'href', 'image_loc'])
 
 n = 1
-print(len(elements))
-print(elements[10])
+
 for element in elements:
     try:
         element = BeautifulSoup(str(element), "html.parser")
@@ -68,10 +67,13 @@ for element in elements:
 
         carsandbids.loc[len(carsandbids)] = [title, description, time_left, bid, location, href, image_loc]
 
+        n=n+1
             
     except Exception as e:
         print("An error occurred:", str(e))
         traceback.print_exc()
+        print(n)
+        n=n+1
 
     
 print(carsandbids)
