@@ -80,29 +80,44 @@ print(carsandbids)
 logger.log_text(carsandbids.to_string())
 
 try:
-    from google.cloud.sql.connector import Connector
-    import pymysql
-    import sqlalchemy
+    import mariadb
+    
+    
+    conn = mariadb.connect(
+            host="34.41.191.0",
+            port=3306,
+            user="root",
+            password='j"t~s?@qBDf#-Y-v')
 
-    # initialize Connector object
-    connector = Connector()
+    # Instantiate Cursor
+    cursor = conn.cursor()
 
-    # function to return the database connection
-    def getconn() -> pymysql.connections.Connection:
-        conn: pymysql.connections.Connection = connector.connect(
-            "screenscrapper-431501:us-central1:screenscrapper2024",
-            "pymysql",
-            user="vm_user",
-            password="dCB+b4lR|)J#nh@3",
-            db="carsandbids"
+    # Drop the table if it already exists
+    cursor.execute("DROP TABLE IF EXISTS carsandbids")
+
+    # Create the table
+    cursor.execute("""
+        CREATE TABLE carsandbids (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255),
+        description TEXT,
+        time_Left VARCHAR(255),
+        bid VARCHAR(255),
+        location VARCHAR(255),
+        href VARCHAR(255),
+        image_loc VARCHAR(255)
         )
-        return conn
+        """)
 
-    # create connection pool
-    pool = sqlalchemy.create_engine(
-        "mysql+pymysql://",
-     creator=getconn,
-    )
+    for index, row in carsandbids.iterrows():
+        cursor.execute("""
+            INSERT INTO carsandbids (title, description, time_Left, bid, location, href, image_loc) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (row['title'], row['description'], row['time_Left'], row['bid'], row['location'], row['href'], row['image_loc']))
+
+    # Close Connection
+    conn.close()
+    
 except Exception as e:
-        print("An error occurred:", str(e))
-        traceback.print_exc()
+    print("An error occurred:", str(e))
+    traceback.print_exc()
