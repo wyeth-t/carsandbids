@@ -78,6 +78,8 @@ for element in elements:
         traceback.print_exc()
         print(n)
         n=n+1
+        print(element)
+        continue
 
     
 print(carsandbids)
