@@ -79,3 +79,30 @@ for element in elements:
 print(carsandbids)
 logger.log_text(carsandbids.to_string())
 
+try:
+    from google.cloud.sql.connector import Connector
+    import pymysql
+    import sqlalchemy
+
+    # initialize Connector object
+    connector = Connector()
+
+    # function to return the database connection
+    def getconn() -> pymysql.connections.Connection:
+        conn: pymysql.connections.Connection = connector.connect(
+            "screenscrapper-431501:us-central1:screenscrapper2024",
+            "pymysql",
+            user="vm_user",
+            password="dCB+b4lR|)J#nh@3",
+            db="carsandbids"
+        )
+        return conn
+
+    # create connection pool
+    pool = sqlalchemy.create_engine(
+        "mysql+pymysql://",
+     creator=getconn,
+    )
+except Exception as e:
+        print("An error occurred:", str(e))
+        traceback.print_exc()
