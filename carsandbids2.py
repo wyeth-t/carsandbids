@@ -32,7 +32,7 @@ time.sleep(10)
 
 # Scroll down
 #actions = ActionChains(driver)
-for _ in range(15):  # Adjust this value based on your needs
+for _ in range(17):  # Adjust this value based on your needs
     driver.execute_script('window.scrollBy(0, 1000)')
     time.sleep(1)  # Wait for the page to load
 
@@ -57,17 +57,36 @@ for element in elements:
             image_loc = element.find("img")['src']
         except:
             image_loc = 'No Image'
-        time_left = element.find("li", class_="time-left").find("span", class_="value").text
+        try:
+            #extract time left
+            time_left = element.find("li", class_="time-left").find("span", class_="value").text
+        except:
+            time_left = 'No Time left'
         #extract bid value
-        bid = element.find("span", class_="bid-value").text
+        try:
+            bid = element.find("span", class_="bid-value").text
+        except:
+            bid = 'No Bid data'
         #extract the title, and link
         a_tag = element.find("div", class_="auction-title").find("a")
-        title = a_tag.text
-        href = adress[:-1] + str(a_tag['href'])
-        #extract description
-        description = element.find("p", class_="auction-subtitle").text
-        #extract location
-        location = element.find("p", class_="auction-loc").text
+        try:
+            title = a_tag.text
+        except:
+            title = 'No Title'
+        try:
+            href = adress[:-1] + str(a_tag['href'])
+        except:
+            href = 'No Href'
+        try:
+            #extract description
+            description = element.find("p", class_="auction-subtitle").text
+        except:
+            description = 'No Description'
+        try: 
+            #extract location
+            location = element.find("p", class_="auction-loc").text
+        except:
+            location = 'No Location'
 
         carsandbids.loc[len(carsandbids)] = [title, description, time_left, bid, location, href, image_loc]
 
