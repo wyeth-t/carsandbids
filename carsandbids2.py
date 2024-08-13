@@ -117,7 +117,7 @@ try:
     for index, row in carsandbids.iterrows():
         try:
             cursor.execute("""
-                NSERT INTO carsandbids (title, description, time_Left, bid, location, href, image_loc) 
+                INSERT INTO carsandbids (title, description, time_Left, bid, location, href, image_loc) 
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
             """, (row['title'], row['description'], row['time_Left'], row['bid'], row['location'], row['href'], row['image_loc']))
         except Exception as e:
