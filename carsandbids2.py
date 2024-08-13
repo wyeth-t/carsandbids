@@ -87,7 +87,8 @@ try:
             host="34.41.191.0",
             port=3306,
             user="root",
-            password='j"t~s?@qBDf#-Y-v')
+            password='j"t~s?@qBDf#-Y-v',
+            database='carsandbids')
 
     # Instantiate Cursor
     cursor = conn.cursor()
