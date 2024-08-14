@@ -122,20 +122,25 @@ for element in elements:
         print(element)
         continue
 
-    
-print(carsandbids)
-#logger.log_text(carsandbids.to_string())
+
+if not carsandbids.empty:
+    try:
+        logger.log_text('Cars and Bids data scraped successfully')
+    except Exception as e:
+        print("A logging error occurred:", str(e))
+        traceback.print_exc()
 
 try:
     import mariadb
+    import os
     
-    print('here')
     conn = mariadb.connect(
-            host="34.41.191.0",
-            port=3306,
-            user="root",
-            password='j"t~s?@qBDf#-Y-v',
-            database='carsandbids')
+        host=os.environ['DB_HOST'],
+        port=int(os.environ['DB_PORT']),
+        user=os.environ['DB_USER'],
+        password=os.environ['DB_PASSWORD'],
+        database=os.environ['DB_NAME']
+    )
 
     # Instantiate Cursor
     cursor = conn.cursor()
