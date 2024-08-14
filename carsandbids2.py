@@ -88,27 +88,32 @@ for element in elements:
         #extract bid value
         try:
             bid = element.find("span", class_="bid-value").text
-        except:
+        except Exception as e:
+            print("An error occurred:", str(e))
             bid = 'No Bid data'
         #extract the title, and link
         a_tag = element.find("div", class_="auction-title").find("a")
         try:
             title = a_tag.text
-        except:
+        except Exception as e:
+            print("An error occurred:", str(e))
             title = 'No Title'
         try:
             href = adress[:-1] + str(a_tag['href'])
-        except:
+        except Exception as e:
+            print("An error occurred:", str(e))
             href = 'No Href'
         try:
             #extract description
             description = element.find("p", class_="auction-subtitle").text
-        except:
+        except Exception as e:
+            print("An error occurred:", str(e))
             description = 'No Description'
         try: 
             #extract location
             location = element.find("p", class_="auction-loc").text
-        except:
+        except Exception as e:
+            print("An error occurred:", str(e))
             location = 'No Location'
 
         carsandbids.loc[len(carsandbids)] = [title, description, time_left, bid, location, href, image_loc, timestamp]
