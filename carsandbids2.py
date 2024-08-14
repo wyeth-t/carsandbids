@@ -160,7 +160,7 @@ try:
         try:
             cursor.execute("""
                 INSERT INTO carsandbids (title, description, time_Left, bid, location, href, image_loc, timestamp) 
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """, (row['title'], row['description'], row['time_Left'], row['bid'], row['location'], row['href'], row['image_loc'], row['timestamp']))
         except Exception as e:
             print(f"Error inserting row: {e}")
