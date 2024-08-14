@@ -123,12 +123,8 @@ for element in elements:
         continue
 
 
-if not carsandbids.empty:
-    try:
-        logger.log_text('Cars and Bids data scraped successfully')
-    except Exception as e:
-        print("A logging error occurred:", str(e))
-        traceback.print_exc()
+#if not carsandbids.empty:
+#    logger.log_text('Cars and Bids data scraped successfully')
 
 try:
     import mariadb
@@ -141,7 +137,6 @@ try:
         password=os.environ['DB_PASSWORD'],
         database=os.environ['DB_NAME']
     )
-
     # Instantiate Cursor
     cursor = conn.cursor()
 
