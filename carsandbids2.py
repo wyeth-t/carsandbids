@@ -21,12 +21,12 @@ def convert_time(time_str):
         # Convert the number of days to hours
         hours = days * 24
         # Return a time object with the hours
-        return datetime.timedelta(hour=hours)
+        return datetime.timedelta(hours=hours)
     else:
         # Split the string into hours, minutes, and seconds
         hours, minutes, seconds = map(int, time_str.split(':'))
         # Return a time object with the hours, minutes, and seconds
-        return datetime.timedelta(hour=hours, minute=minutes, second=seconds)
+        return datetime.timedelta(hours=hours, minutes=minutes, seconds=seconds)
 
 # Start virtual display
 display = Display(visible=0, size=(800, 600))
@@ -81,7 +81,7 @@ for element in elements:
             #extract time left
             time_left = convert_time(element.find("li", class_="time-left").find("span", class_="value").text)
         except:
-            time_left = 'No Time left'
+            time_left = datetime.timedelta(hours=99, minutes=99, seconds=99)
         #extract bid value
         try:
             bid = element.find("span", class_="bid-value").text
