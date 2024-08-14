@@ -5,10 +5,28 @@ from selenium.webdriver.common.action_chains import ActionChains
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys
 import time 
+import datetime
 from bs4 import BeautifulSoup
 from pyvirtualdisplay import Display
 import pandas as pd
 import traceback
+import re
+
+
+def convert_time(time_str):
+    # Check if the string represents a number of days
+    if 'day' in time_str:
+        # Extract the number of days
+        days = int(re.search(r'\d+', time_str).group())
+        # Convert the number of days to hours
+        hours = days * 24
+        # Return a time object with the hours
+        return datetime.time(hour=hours)
+    else:
+        # Split the string into hours, minutes, and seconds
+        hours, minutes, seconds = map(int, time_str.split(':'))
+        # Return a time object with the hours, minutes, and seconds
+        return datetime.time(hour=hours, minute=minutes, second=seconds)
 
 # Start virtual display
 display = Display(visible=0, size=(800, 600))
@@ -42,9 +60,11 @@ display.stop()
 soup = BeautifulSoup(html, "html.parser")
     
 elements = soup.find_all("li", class_="auction-item")
-carsandbids = pd.DataFrame(columns=['title', 'description', 'time_Left', 'bid', 'location', 'href', 'image_loc'])
+carsandbids = pd.DataFrame(columns=['title', 'description', 'time_Left', 'bid', 'location', 'href', 'image_loc', 'timestamp'])
 
 n = 1
+timestamp = datetime.datetime.now()
+timestamp = timestamp.strftime("%m/%d/%y %H:%M:%S")
 
 for element in elements:
     try:
@@ -59,7 +79,7 @@ for element in elements:
             image_loc = 'No Image'
         try:
             #extract time left
-            time_left = element.find("li", class_="time-left").find("span", class_="value").text
+            time_left = convert_time(element.find("li", class_="time-left").find("span", class_="value").text)
         except:
             time_left = 'No Time left'
         #extract bid value
@@ -88,7 +108,7 @@ for element in elements:
         except:
             location = 'No Location'
 
-        carsandbids.loc[len(carsandbids)] = [title, description, time_left, bid, location, href, image_loc]
+        carsandbids.loc[len(carsandbids)] = [title, description, time_left, bid, location, href, image_loc, timestamp]
 
         n=n+1
             
@@ -127,20 +147,21 @@ try:
         id INT AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(255),
         description TEXT,
-        time_Left VARCHAR(255),
+        time_Left TIME,
         bid VARCHAR(255),
         location VARCHAR(255),
         href VARCHAR(255),
-        image_loc VARCHAR(255)
+        image_loc VARCHAR(255),
+        timestamp VARCHAR(255)
         )
         """)
 
     for index, row in carsandbids.iterrows():
         try:
             cursor.execute("""
-                INSERT INTO carsandbids (title, description, time_Left, bid, location, href, image_loc) 
+                INSERT INTO carsandbids (title, description, time_Left, bid, location, href, image_loc, timestamp) 
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
-            """, (row['title'], row['description'], row['time_Left'], row['bid'], row['location'], row['href'], row['image_loc']))
+            """, (row['title'], row['description'], row['time_Left'], row['bid'], row['location'], row['href'], row['image_loc'], row['timestamp']))
         except Exception as e:
             print(f"Error inserting row: {e}")
 
