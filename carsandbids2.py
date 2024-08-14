@@ -67,7 +67,7 @@ carsandbids = pd.DataFrame(columns=['title', 'description', 'time_Left', 'bid', 
 n = 1
 timestamp = datetime.datetime.now()
 timestamp = timestamp.strftime("%m/%d/%y %H:%M:%S")
-
+print(elements[40])
 for element in elements:
     try:
         element = BeautifulSoup(str(element), "html.parser")
