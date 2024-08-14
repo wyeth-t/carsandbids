@@ -82,7 +82,8 @@ for element in elements:
         try:
             #extract time left
             time_left = convert_time(element.find("li", class_="time-left").find("span", class_="value").text)
-        except:
+        except Exception as e:
+            print("An error occurred:", str(e))
             time_left = '999999999999'
         #extract bid value
         try:
