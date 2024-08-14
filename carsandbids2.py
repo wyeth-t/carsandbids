@@ -37,6 +37,7 @@ display.start()
 # Initialize a logger instance
 client = logging.Client()
 logger = client.logger("carsandbidslogger")
+print(logger)
 
 # Setup WebDriver
 webdriver_service = Service(ChromeDriverManager().install())
