@@ -123,8 +123,8 @@ for element in elements:
         continue
 
 print(carsandbids)
-if not carsandbids.empty:
-    logger.log_text('Cars and Bids data scraped successfully')
+#if not carsandbids.empty:
+    #logger.log_text('Cars and Bids data scraped successfully')
 
 try:
     import mariadb
