@@ -15,7 +15,7 @@ import re
 
 def convert_time(time_str):
     # Check if the string represents a number of days
-    if 'day' in time_str:
+    if 'day' in time_str.lower():
         # Extract the number of days
         days = int(re.search(r'\d+', time_str).group())
         # Convert the number of days to hours
