@@ -21,12 +21,12 @@ def convert_time(time_str):
         # Convert the number of days to hours
         hours = days * 24
         # Return a time object with the hours
-        return datetime.time(hour=hours)
+        return datetime.timedelta(hour=hours)
     else:
         # Split the string into hours, minutes, and seconds
         hours, minutes, seconds = map(int, time_str.split(':'))
         # Return a time object with the hours, minutes, and seconds
-        return datetime.time(hour=hours, minute=minutes, second=seconds)
+        return datetime.timedelta(hour=hours, minute=minutes, second=seconds)
 
 # Start virtual display
 display = Display(visible=0, size=(800, 600))
