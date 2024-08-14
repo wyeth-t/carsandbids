@@ -36,7 +36,7 @@ display.start()
 
 # Initialize a logger instance
 client = logging.Client()
-logger = client.logger("example_dot_com_logger")
+logger = client.logger("carsandbidslogger")
 
 # Setup WebDriver
 webdriver_service = Service(ChromeDriverManager().install())
@@ -67,7 +67,6 @@ carsandbids = pd.DataFrame(columns=['title', 'description', 'time_Left', 'bid', 
 n = 1
 timestamp = datetime.datetime.now()
 timestamp = timestamp.strftime("%m/%d/%y %H:%M:%S")
-print(elements[40])
 for element in elements:
     try:
         element = BeautifulSoup(str(element), "html.parser")
@@ -124,8 +123,8 @@ for element in elements:
         continue
 
 print(carsandbids)
-#if not carsandbids.empty:
-#    logger.log_text('Cars and Bids data scraped successfully')
+if not carsandbids.empty:
+    logger.log_text('Cars and Bids data scraped successfully')
 
 try:
     import mariadb
