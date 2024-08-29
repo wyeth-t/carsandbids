@@ -82,38 +82,32 @@ for element in elements:
         try:
             #extract time left
             time_left = convert_time(element.find("li", class_="time-left").find("span", class_="value").text)
-        except Exception as e:
-            print("An error occurred:", str(e))
+        except:
             time_left = '999999999999'
         #extract bid value
         try:
             bid = element.find("span", class_="bid-value").text
-        except Exception as e:
-            print("An error occurred:", str(e))
+        except:
             bid = 'No Bid data'
         #extract the title, and link
         a_tag = element.find("div", class_="auction-title").find("a")
         try:
             title = a_tag.text
-        except Exception as e:
-            print("An error occurred:", str(e))
+        except:
             title = 'No Title'
         try:
             href = adress[:-1] + str(a_tag['href'])
-        except Exception as e:
-            print("An error occurred:", str(e))
+        except:
             href = 'No Href'
         try:
             #extract description
             description = element.find("p", class_="auction-subtitle").text
-        except Exception as e:
-            print("An error occurred:", str(e))
+        except:
             description = 'No Description'
         try: 
             #extract location
             location = element.find("p", class_="auction-loc").text
-        except Exception as e:
-            print("An error occurred:", str(e))
+        except:
             location = 'No Location'
 
         carsandbids.loc[len(carsandbids)] = [title, description, time_left, bid, location, href, image_loc, timestamp]
@@ -128,8 +122,11 @@ for element in elements:
         print(element)
         continue
 
-print(carsandbids)
-logger.log_text('Cars and Bids data scraped successfully')
+
+if not carsandbids.empty:
+    logger.log_text('Cars and Bids data scraped successfully')
+else:
+    logger.log_text('No data was scraped')
 
 try:
     import mariadb
@@ -176,7 +173,7 @@ try:
 
     # Close Connection
     conn.close()
-    
+    logger.log_text('Saved to sql')
 except Exception as e:
     print("An error occurred:", str(e))
     traceback.print_exc()
