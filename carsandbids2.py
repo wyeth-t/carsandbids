@@ -131,22 +131,30 @@ else:
 try:
     import mariadb
     import os
-    
-    conn = mariadb.connect(
+    logger.log_text('imported packages')
+    try:
+        conn = mariadb.connect(
         host=os.environ['DB_HOST'],
         port=int(os.environ['DB_PORT']),
         user=os.environ['DB_USER'],
         password=os.environ['DB_PASSWORD'],
         database=os.environ['DB_NAME']
-    )
+        )
+    except Exception as e:
+            print(f"Error in connection: {e}")
     # Instantiate Cursor
-    cursor = conn.cursor()
+
+    try:
+        cursor = conn.cursor()
+    except Exception as e:
+            print(f"Error with cursor: {e}")
 
     # Drop the table if it already exists
-    cursor.execute("DROP TABLE IF EXISTS carsandbids")
+    try:
+        cursor.execute("DROP TABLE IF EXISTS carsandbids")
 
     # Create the table
-    cursor.execute("""
+        cursor.execute("""
         CREATE TABLE carsandbids (
         id INT AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(255),
@@ -159,6 +167,9 @@ try:
         timestamp VARCHAR(255)
         )
         """)
+    except Exception as e:
+            print(f"Error dropping table or creating: {e}")
+
 
     for index, row in carsandbids.iterrows():
         try:
