@@ -134,11 +134,11 @@ try:
     logger.log_text('imported packages')
     try:
         conn = mariadb.connect(
-        host=os.environ['DB_HOST'],
-        port=int(os.environ['DB_PORT']),
-        user=os.environ['DB_USER'],
-        password=os.environ['DB_PASSWORD'],
-        database=os.environ['DB_NAME']
+        host='34.41.191.0',
+        port=3306,
+        user='root',
+        password='j"t~s?@qBDf#-Y-v',
+        database='carsandbids'
         )
     except Exception as e:
             print(f"Error in connection: {e}")
